@@ -1,14 +1,14 @@
-import { logoutAccount } from '@/lib/user.actions'
+import { logoutAccount } from '@/lib/actions/user.actions'
 import Image from 'next/image'
 import React from 'react'
 import { useRouter } from 'next/navigation'
 
 const Footer = ({ user, type = 'desktop' }: FooterProps) => {
 	const router = useRouter();
-	
+
 	const handleLogOut = async () => {
 		const loggedOut = await logoutAccount();
-		 router.push('/sign-in');
+		router.push('/sign-in');
 	}
 
 	return (
