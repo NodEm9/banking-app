@@ -7,7 +7,8 @@ const Footer = ({ user, type = 'desktop' }: FooterProps) => {
 	const router = useRouter();
 
 	const handleLogOut = async () => {
-		const loggedOut = await logoutAccount();
+		await logoutAccount();
+
 		router.push('/sign-in');
 	}
 
@@ -15,13 +16,13 @@ const Footer = ({ user, type = 'desktop' }: FooterProps) => {
 		<footer className='footer'>
 			<div className={type === 'mobile' ? 'footer_name-moblie' : 'footer_name'}>
 				<p className='text-xl font-bold text-gray-700'>
-					{user?.name[0]}
+					{user?.firstName[0]}
 				</p>
 			</div>
 			<div
 				className={type === 'mobile' ? 'footer_email-moblie' : 'footer_email'}>
 				<h1 className='text-14 truncate font-normal text-gray-700'>
-					{user.name}
+					{user?.firstName}
 				</h1>
 
 				<p className='text-14 truncate font-semi-bold text-gray-600'>

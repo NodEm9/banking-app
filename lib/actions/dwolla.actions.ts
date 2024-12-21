@@ -1,9 +1,10 @@
 "use server";
 
+import { DWOLLA_ENV, DWOLLA_KEY, DWOLLA_SECRET } from "@/constants/env";
 import { Client } from "dwolla-v2";
 
 const getEnvironment = (): "production" | "sandbox" => {
-  const environment = process.env.DWOLLA_ENV as string;
+  const environment = DWOLLA_ENV;
 
   switch (environment) {
     case "sandbox":
@@ -19,8 +20,8 @@ const getEnvironment = (): "production" | "sandbox" => {
 
 const dwollaClient = new Client({
   environment: getEnvironment(),
-  key: process.env.DWOLLA_KEY as string,
-  secret: process.env.DWOLLA_SECRET as string,
+  key: DWOLLA_KEY,
+  secret: DWOLLA_SECRET,
 });
 
 // Create a Dwolla Funding Source using a Plaid Processor Token
