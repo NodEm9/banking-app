@@ -39,7 +39,7 @@ export const signUp = async ({password, ...userData}: SignUpParams) => {
 			ID.unique(),
 			email,
 			password,
-			`${firstName} ${lastName}`
+			`${firstName} ${lastName}`  
 		);
 
 		if (!newUserAccount) throw new Error("Error creating user")
@@ -92,6 +92,7 @@ export async function getLoggedInUser() {
 
 		return parseStringify(user);
 	} catch (error) {
+		console.error(error);
 		return null;
 	}
 }
