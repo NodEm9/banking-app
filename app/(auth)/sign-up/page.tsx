@@ -1,8 +1,8 @@
 import AuthForm from '@/components/AuthForm'
-import { getLoggedInUser } from '@/lib/user.actions';
+import { getLoggedInUser } from '@/lib/actions/user.actions';
 import React from 'react'
 
-const SignUp = async () =>{
+const SignUp = async () => {
 	const loggedUser = await getLoggedInUser();
 	if (loggedUser) {
 		console.log('User is logged in');
