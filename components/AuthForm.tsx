@@ -86,12 +86,12 @@ const AuthForm = ({ type }: { type: string }) => {
 					className='flex cursor-pointer items-center gap-1 px-4 py-2'
 				>
 					<Image
-						src='/icons/logo.svg'
+						src='/icons/orientis-2.svg'
 						width={34}
 						height={34}
 						alt='Horizon logo'
 					/>
-					<h1 className='text-26 font-ibm-plex-serif font-bold text-black-1'>Horizon</h1>
+					<h1 className='text-26 font-ibm-plex-serif font-bold text-black-1'>ORIENTIS</h1>
 				</Link>
 
 				<div className='flex flex-col gap-1 md:gap-3'>

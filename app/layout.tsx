@@ -12,9 +12,9 @@ const ibmPlexSerif = IBM_Plex_Serif({
 })
 
 export const metadata: Metadata = {
-  title: "Horizon",
-  description: "Horizon is a modern banking app for everyone.",
-  icons: '/icons/logo.svg',
+  title: "Orientis",
+  description: "Orientis is a modern banking app for everyone everywhere.",
+  icons: '/icons/orientis-2.svg', 
 };
 
 export default function RootLayout({
