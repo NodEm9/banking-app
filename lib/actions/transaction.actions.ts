@@ -25,7 +25,7 @@ export const createTransaction = async (transaction: CreateTransactionProps) => 
   } catch (error) {
     console.log(error);
   }
-}
+} 
 
 export const getTransactionsByBankId = async ({bankId}: getTransactionsByBankIdProps) => {
   try {

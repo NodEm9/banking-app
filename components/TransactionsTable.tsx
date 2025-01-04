@@ -30,17 +30,25 @@ const CategoryBadge = ({ category }: CategoryBadgeProps) => {
 	)
 }
 
+const tableHeadItems = {
+  transaction: 'Transaction',
+  amount: 'Amount',
+  status: 'Status',
+  date: 'Date',
+  channel: 'Channel',
+  category: 'Category',
+}
+
 const TransactionsTable = ({ transactions }: TransactionTableProps) => {
   return (
     <Table>
       <TableHeader className="bg-[#f9fafb]">
         <TableRow>
-          <TableHead className="px-2">Transaction</TableHead>
-          <TableHead className="px-2">Amount</TableHead>
-          <TableHead className="px-2">Status</TableHead>
-          <TableHead className="px-2">Date</TableHead>
-          <TableHead className="px-2 max-md:hidden">Channel</TableHead>
-          <TableHead className="px-2 max-md:hidden">Category</TableHead>
+          {Object.values(tableHeadItems).map((item, index) => (
+            <TableHead key={index} className="pl-2 pr-10 font-semibold text-[#344054]">
+              {item}
+            </TableHead>
+          ))}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -52,7 +60,7 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
           const isCredit = t.type === 'credit';
 
           return (
-            <TableRow key={t.id} className={`${isDebit || amount[0] === '-' ? 'bg-[#FFFBFA]' : 'bg-[#F6FEF9]'} !over:bg-none !border-b-DEFAULT`}>
+            <TableRow key={t.$id} className={`${isDebit || amount[0] === '-' ? 'bg-[#FFFBFA]' : 'bg-[#F6FEF9]'} !over:bg-none !border-b-DEFAULT`}>
               <TableCell className="max-w-[250px] pl-2 pr-10">
                 <div className="flex items-center gap-3">
                   <h1 className="text-14 truncate font-semibold text-[#344054]">
@@ -66,7 +74,7 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
                   'text-[#f04438]'
                   : 'text-[#039855]'
               }`}>
-                {isDebit ? `-${amount}` : isCredit ? amount : amount}
+                {isDebit ? `-${amount}` : isCredit ? `${amount}` : amount}
               </TableCell>
 
               <TableCell className="pl-2 pr-10">

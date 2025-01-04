@@ -5,27 +5,36 @@ import TotalBalanceBox from '@/components/TotalBalanceBox'
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions'
 import { getLoggedInUser } from '@/lib/actions/user.actions'
 
-const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
-  const currentPage = Number(page as string) || 1;
-  const loggedIn = await getLoggedInUser();
-  const accounts = await getAccounts({ 
-    userId: loggedIn.$id 
-  })
-	if (!accounts) return 
+const Home = async (props: SearchParamProps) => {
+	const searchParams = props.searchParams;
+
+	const {
+		id,
+		page
+	} = searchParams;
+
+	const currentPage = Number(page as string) || 1;
+	const loggedIn = await getLoggedInUser();
+	if (!loggedIn) return
+	
+	const accounts = await getAccounts({
+		userId: loggedIn.$id
+	})
+	if (!accounts) return
 
 	const accountsData = accounts?.data
 	const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId;
 
 	const account = await getAccount({ appwriteItemId })
 
-	return ( 
+	return (
 		<div className='home'>
-			<div className="home-content"> 
+			<div className="home-content">
 				<header className="home-header">
-					<HeaderBox 
+					<HeaderBox
 						type='greeting'
 						title='Welcome'
-						user={`${loggedIn?.firstName } | ${loggedIn.lastName}`|| 'Guest'}
+						user={`${loggedIn?.firstName} | ${loggedIn.lastName}` || 'Guest'}
 						subtext='Access and manage your account transaction informations efficiently.'
 					/>
 
@@ -42,7 +51,7 @@ const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
 					appwriteItemId={appwriteItemId}
 					page={currentPage}
 				/>
-			</div> 
+			</div>
 			<RightSidebar
 				user={loggedIn}
 				transactions={account?.transactions}

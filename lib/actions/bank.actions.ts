@@ -1,13 +1,6 @@
 "use server";
-import {
-  ACHClass,
-  CountryCode,
-  TransferAuthorizationCreateRequest,
-  TransferCreateRequest,
-  TransferNetwork,
-  TransferType,
-} from "plaid";
- 
+import { CountryCode } from "plaid";
+
 import { plaidClient } from "../plaid";
 import { parseStringify } from "../utils";
 
@@ -32,7 +25,7 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
         const institution = await getInstitution({
           institutionId: accountsResponse.data.item.institution_id!,
         });
- 
+
         const account = {
           id: accountData.account_id,
           availableBalance: accountData.balances.available!,
@@ -77,7 +70,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
     // get transfer transactions from appwrite
     const transferTransactionsData = await getTransactionsByBankId({
       bankId: bank.$id,
-    }); 
+    });
 
     const transferTransactions = transferTransactionsData.documents.map(
       (transferData: Transaction) => ({
@@ -114,16 +107,16 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
     };
 
     // sort transactions by date such that the most recent transaction is first
-      const allTransactions = [...transferTransactions, [transactions]].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const allTransactions = [...transferTransactions, [transactions]].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    return parseStringify({ 
+    return parseStringify({
       data: account,
       transactions: allTransactions,
     });
   } catch (error: any) {
     console.error("An error occurred while getting the account:", error?.stack);
   }
-}; 
+};
 
 // Get bank info
 export const getInstitution = async ({
@@ -143,6 +136,20 @@ export const getInstitution = async ({
   }
 };
 
+type TransactionsProps = {
+  id: string;
+  name: string;
+  paymentChannel: string;
+  type: string;
+  accountId: string;
+  amount: number;
+  pending: boolean;
+  category: string;
+  date: string;
+  image: string;
+
+}
+
 // Get transactions
 export const getTransactions = async ({
   accessToken,
@@ -157,7 +164,7 @@ export const getTransactions = async ({
         access_token: accessToken,
       });
 
-      const data = response.data; 
+      const data = response.data;
 
       transactions = data.added.map((transaction) => ({
         id: transaction.transaction_id,
@@ -167,7 +174,7 @@ export const getTransactions = async ({
         accountId: transaction.account_id,
         amount: transaction.amount,
         pending: transaction.pending,
-        category: transaction.personal_finance_category ,
+        category: transaction.personal_finance_category,
         date: transaction.date,
         image: transaction.logo_url,
       }));

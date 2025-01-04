@@ -26,6 +26,8 @@ export const getUserInfo = async ({ userId }: getUserInfoProps) => {
 			[Query.equal('userId', [userId])]
 		)
 
+		if (user.total !== 1) return null;
+
 		return parseStringify(user.documents[0]);
 	} catch (error) {
 		console.error(error);
@@ -38,7 +40,7 @@ export const signIn = async ({ email, password }: signInProps) => {
 
 		const session = await account.createEmailPasswordSession(email, password);
 
-		cookies().set("appwrite-session", session.secret, {
+		(await cookies()).set("appwrite-session", session.secret, {
 			path: "/",
 			httpOnly: true,
 			sameSite: "strict",
@@ -93,7 +95,7 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
 		const session = await account.createEmailPasswordSession(email, password);
 
-		cookies().set("appwrite-session", session.secret, {
+		(await cookies()).set("appwrite-session", session.secret, {
 			path: "/",
 			httpOnly: true,
 			sameSite: "strict",
@@ -113,8 +115,10 @@ export async function getLoggedInUser() {
 	try {
 		const { account } = await createSessionClient();
 		const result = await account.get();
-
+		if (!result) return null;
+ 
 		const user = await getUserInfo({ userId: result.$id });
+		if (!user.$id) return
 
 		return parseStringify(user);
 
